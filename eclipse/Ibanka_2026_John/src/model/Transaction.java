@@ -2,12 +2,17 @@ package model;
 import java.time.LocalDateTime;
 
 public class Transaction {
+	private static int idcounter = 1;
+	
 	private int id;
 	private LocalDateTime dateTime;
 	private double amount;
 	private String description;
 	private BankAccount sourceAccount;
 	private BankAccount targetAccount;
+	
+	
+		
 	
 	//getters
 	public int getId() {
@@ -29,37 +34,56 @@ public class Transaction {
 		return targetAccount;
 	}
 	
-	//setters
+	//setters	
+	
 	public void setDateTime() {
-		this.dateTime = LocalDateTime.now();
+		dateTime = LocalDateTime.now();
 	}
-	public void setAmount(double amount) {
-		if(amount <= 0) {
+	public void setAmount(double inputAmount) {
+		if(inputAmount  > 0) {
+			amount = inputAmount;
+		}
+		else {
 			throw new IllegalArgumentException("AMOUNT MUST BE ENOUGH OR MORE THAN 0");
 		}
-		this.amount = amount;
+		
 	} 
-	@SuppressWarnings("null")
-	public void setDescription(String description) {
-		if (description == null && description.isEmpty()) {
-			throw new IllegalArgumentException("Source account cannot be empty");
+	
+	public void setDescription(String inputDescription) {
+		if (inputDescription != null && inputDescription.isEmpty()) {
+			throw new IllegalArgumentException("Description cannot be empty");
 		}
-		this.description = description;
+		description = inputDescription;
 	}
 	public void setSourceAccount (BankAccount inputSourceAccount) {
-		if (inputSourceAccount == null) {
-			throw new IllegalArgumentException("Account Cannot be empty!");
+		if (inputSourceAccount != null) {
 		}
-		this.sourceAccount = inputSourceAccount; 
+		sourceAccount = inputSourceAccount; 
 	}
 	public void setTargetAccount (BankAccount inputTargetAccount) {
-		if (inputTargetAccount == null) {
-			throw new IllegalArgumentException("Target ACCOUNT CANNOT BE EMPMTY");
+		if (inputTargetAccount != null) {
 		}
-		this.targetAccount =  inputTargetAccount;
+		targetAccount =  inputTargetAccount;
 	}
 	
+	public Transaction() {
+		id = idcounter++;
+		setAmount(7000);
+		setDescription("Bills For School And Future Concert!.");
+		setDateTime();
+	}
 	
+	public Transaction( double inputAmount, String inputDescription, BankAccount inputSourceAccount,
+			BankAccount inputTargetAccount) {
+		id = idcounter++;
+		setDateTime();
+		setAmount(inputAmount);
+		setDescription(inputDescription);
+		setSourceAccount(inputSourceAccount);
+		setTargetAccount(inputTargetAccount);
+	}
+	
+
 	public boolean execute() {
 		if (checkIsBalanceEnough()) {
 			sourceAccount.withdraw(amount);
@@ -74,7 +98,8 @@ public class Transaction {
 	
 	//String tostring
 	public String tostring() {
-		String result = id + " " + amount + " " + sourceAccount + " " + targetAccount + " " + dateTime + " " + description;
+		String result = id + " " + amount + " " + sourceAccount + " " + targetAccount + 
+				" " + dateTime + " " + description +  execute();
 		return result;
 	}
 	

@@ -1,14 +1,14 @@
 package model;
 
 public class Employee extends Person {
-	private EmployeeStatus employeeStatus;
+	private EmployeeStatus status;
 	private  double approvalLimit;
 	
 	
 	//getters
 	
 	public EmployeeStatus getEmployeeStatus() {
-		return employeeStatus;
+		return status;
 	}
 	
 	public double getapprovalLimit() {
@@ -18,21 +18,15 @@ public class Employee extends Person {
 	
 	public void setemployeeStatus(EmployeeStatus inputemployeeStatus ) {
 		if(inputemployeeStatus != null) {
-			employeeStatus = inputemployeeStatus;
+			status = inputemployeeStatus;
 		}
-		else
-		{
-			employeeStatus = EmployeeStatus.Vacation;
-		}
+	
 	}	
 	
 	
 	public void setapprovalLimit(double inputapprovalLimit) {
 		if(inputapprovalLimit > 0 && inputapprovalLimit < 200000 ) {
 			approvalLimit = inputapprovalLimit;
-		}
-		else {
-			approvalLimit = 0;
 		}
 		
 	}
@@ -43,13 +37,14 @@ public class Employee extends Person {
 		
 	}
 	
-	public Employee(EmployeeStatus inputEmployeeStatus, double inputapprovalLimit) {
+	public Employee(String inputname, String inputSurname, String inputPersonCode,  EmployeeStatus inputEmployeeStatus, double inputapprovalLimit) {
+		super(inputname, inputSurname, inputPersonCode);
 		setemployeeStatus(inputEmployeeStatus);
 		setapprovalLimit(inputapprovalLimit);
 	}
 	
 public String toString() {
-	String result = employeeStatus + "| " + approvalLimit ;
+	String result = status + "| " + approvalLimit ;
 	return result;
 } 
 		

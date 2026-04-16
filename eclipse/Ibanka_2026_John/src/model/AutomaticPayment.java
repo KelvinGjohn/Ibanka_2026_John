@@ -1,10 +1,10 @@
 package model;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class AutomaticPayment extends Transaction {
 	private String title;
 	private  AutomatedPaymentScheduleType scheduleType;
-	private LocalDateTime nextPaymentDate;
+	private LocalDate nextPaymentDate;
 	private boolean active;
 	
 	//getters
@@ -14,10 +14,10 @@ public class AutomaticPayment extends Transaction {
 	public AutomatedPaymentScheduleType getScheduleType() {
 		return scheduleType;
 	}
-	public LocalDateTime getNextPaymentDate() {
+	public LocalDate getNextPaymentDate() {
 		return nextPaymentDate;
 	}
-	public boolean getActive() {
+	public boolean isActive() {
 		return active;
 	}
 	
@@ -28,25 +28,31 @@ public class AutomaticPayment extends Transaction {
 		}
 		title = inputTitle; 
 	}
-	public void setScheduleType(AutomatedPaymentScheduleType inputScheduleTypes) {
-		if(inputScheduleTypes == null) {
-			throw new IllegalArgumentException("NOTE:cannot be empty!");
+	public void setScheduleType(AutomatedPaymentScheduleType inputScheduleType) {
+		if (scheduleType == null) {
+			scheduleType = inputScheduleType;
+		}else {
+			throw new IllegalArgumentException("NOTE:Cannot be empty!");
 		}
-		scheduleType = inputScheduleTypes;
-	}
-	public void setNextPaymentDate(LocalDateTime inputNextPaymentDate) {
-		if (nextPaymentDate == null) {
-			throw new IllegalArgumentException("NOTE:Next cannot be empty!");
-		}
-		nextPaymentDate = inputNextPaymentDate;
 		
 	}
-	public void setActive(boolean inputActive, boolean active) {
-		this.active = active;
+	public void setNextPaymentDate(LocalDate inputNextPaymentDate) {
+		if (nextPaymentDate == null) {
+			nextPaymentDate = inputNextPaymentDate;
+		}
+		else
+		{
+			throw new IllegalArgumentException("NOTE:Next cannot be empty!");
+		}
+		
+		
+	}
+	public void setActive(boolean inputActive) {
+		active = inputActive;
 	}
 	
 	public boolean executeIFDue() {
-		if (active && nextPaymentDate.equals(LocalDateTime.now())) {
+		if (active && nextPaymentDate.equals(LocalDate.now())) {
 			boolean success = execute();
 			
 			if (success) {
@@ -57,29 +63,50 @@ public class AutomaticPayment extends Transaction {
 		return false;
 	}
 	private void updateNextPaymentDate() {
-		switch (scheduleType) {
-		case Daily: 
+		if (scheduleType == AutomatedPaymentScheduleType.Daily) {
 			nextPaymentDate = nextPaymentDate.plusDays(1);
-			break;
-		case Weekly:
-			nextPaymentDate = nextPaymentDate.plusWeeks(1);
-			break;
-		case Monthly:
-			nextPaymentDate = nextPaymentDate.plusMonths(1);
-			break;
-		case Yearly:
-			break;
-		default:
-			break;
 		}
-		// TODO Auto-generated method stub
+		else if 
+			(scheduleType == AutomatedPaymentScheduleType.Weekly){
+				nextPaymentDate = nextPaymentDate.plusWeeks(1);
+			}
+		else if (
+				scheduleType == AutomatedPaymentScheduleType.Monthly) {
+			nextPaymentDate = nextPaymentDate.plusMonths(1);
+		}
 		
 	}
 	
-		
-	
 	
 	// no args
+	public AutomaticPayment() {
+		super();
+		setTitle("GIFT_MONEY");
+		setAmount(2000);
+		setDescription("Medication bill");
+		setScheduleType(AutomatedPaymentScheduleType.Daily);
+		setActive(true);
+	}
+	
+	
+	//args
+	public AutomaticPayment(double amount, String description, BankAccount sourceAccount, BankAccount targetAccount,
+			String title,
+			AutomatedPaymentScheduleType inputScheduleType,
+			LocalDate inputNextPaymentDate,boolean inputActive) {
+		super(amount,description,sourceAccount,targetAccount);
+		setTitle(title);
+		setScheduleType(inputScheduleType);
+		setNextPaymentDate(inputNextPaymentDate);
+		setActive(inputActive);
+		
+	}
+	
+	//String to String
+	public String toString() {
+		String result = title + "|" + scheduleType + "|" + nextPaymentDate + "|" + active;
+		return result;
+	}
 	
 
 }

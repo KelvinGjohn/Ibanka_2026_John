@@ -3,7 +3,7 @@ package model;
 
 public class Address {
 	private City city;
-	private String houseName;
+	private String houseTitle;
 	private int houseNumber;
 
 	//getters
@@ -11,8 +11,8 @@ public class Address {
 		return city;
 	}
 	
-	public String getHouseName () {
-		return houseName;
+	public String getHouseTitle () {
+		return houseTitle;
 	}
 	
 	public int getHouseNumber() {
@@ -30,14 +30,10 @@ public class Address {
 		}
 	}
 	
-	public void setHouseName(String inputHouseName) {
+	public void setHouseTitle(String inputHouseName) {
 		if (inputHouseName != null && (!inputHouseName.isEmpty())
-		&& (inputHouseName.matches("[A-Z]{2}[a-z]{3,15}([ ]{1}[A-Z{2}[a-z]{3,15})?"))) {
-			houseName = inputHouseName;
-		}
-		else
-		{
-			houseName = "Unknown";
+		&& (inputHouseName.matches("[A-Z]{1}[a-z]{2,12}?[ ]{1}[A-Z]{1}[a-z]{2,12}?"))) {
+			houseTitle = inputHouseName;
 		}		
 	}
 	
@@ -45,27 +41,25 @@ public class Address {
 		if(inputHouseNumber > 0 && inputHouseNumber < 150) {
 			houseNumber = inputHouseNumber;
 		}
-		else
-		{
-			houseNumber = 101;
-		}
 	}
 	// no- args constr
 	public Address() {
-		setCity(City.Riga);
-		setHouseName("KelvinsHome");
-		setHouseNumber(1);
+		setCity(City.Ventspils);
+		setHouseTitle("KJnices Homes");
+		setHouseNumber(101);
 	}
 	
 	//args
-	public Address(City inputCity, String inputHouseName, int inputHouseNumber) {
+	public Address(City inputCity, String inputHouseTitle, int inputHouseNumber) {
 		setCity(inputCity);
-		setHouseName(inputHouseName);
+		setHouseTitle(inputHouseTitle);
 		setHouseNumber(inputHouseNumber);		
 	}
 	
+
+
 	public String toString() {
-		String result = city + ", " + houseName + " " + houseNumber;
+		String result = city + ", " + houseTitle + " " + houseNumber;
 		return result;
 	}
 }

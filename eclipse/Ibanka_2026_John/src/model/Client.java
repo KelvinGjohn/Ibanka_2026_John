@@ -7,6 +7,7 @@ public class Client extends Person {
 	private  ArrayList<BankAccount> accounts;
 	private String clientCode;
 	
+	
 	//getters
 	public String getEmail() {
 		return email;
@@ -24,39 +25,28 @@ public class Client extends Person {
 	//setters
 	
 	public void setEmail(String inputEmail) {
-		if (email != null && email.contains("@")) {
-			this.email = inputEmail;
+		if (inputEmail != null && inputEmail.contains("@")) {
+		email = inputEmail;
 		}
 		
 		
 	}
 	
 	public void setAddress(Address inputaddress) {
-		this.address = inputaddress;
+		if (inputaddress != null  )
+		address = inputaddress;
 	}
 	
-	public void setAccount(ArrayList<BankAccount>inputaccounts){
-		if(inputaccounts != null && !inputaccounts.isEmpty()) {
-		accounts = inputaccounts;
-		}
-		else
-		{
-		accounts = new ArrayList<BankAccount>();
-		}
-	}
-	
-	public void setClientCode(String inputClientCode) {
-		if(getName() != null && getSurname() != null && getPersonCode() != null) {
-			this.clientCode =
-					getSurname().charAt(0) + "_" +
+	public void setClientCode(String personalCode) {
+		if( (personalCode != null) && (!personalCode.isEmpty())){
+			clientCode = super.getName().toUpperCase().charAt(0)+"_" + super.getSurname().toUpperCase().charAt(0) +
+						"_"+ super.getPersonCode();
+					/*getSurname().charAt(0) + "_" +
 					getName().charAt(0) + "_" +
-					getPersonCode();
-		}
-		else
-		{
-			this.clientCode = "Unknown";
-		}
+					getPersonCode();*/
 	}
+	}
+	
 	
 	public void addBankAccount(BankAccount newAccount) {
 		if (newAccount == null )
@@ -75,22 +65,27 @@ public class Client extends Person {
 	}
 	// no arg
 	public Client() {
-		this.accounts = new ArrayList<BankAccount>(accounts);
+		super();
+		setEmail("kelvin@j.com");
+		setAddress(new Address(City.Jelgava, "kelvinsHomes", 101));
+		accounts = new ArrayList<BankAccount>();
+		
 	}
 	
 	//args
-	public Client(String inputname, String inputsurname, String inputpersonCode,
-			String inputemail, Address inputaddress, Address address, String email) {
-		super(inputname,inputsurname,inputpersonCode);
-		this.email = email;
-		this.address = address;
-		this.accounts = new ArrayList<BankAccount>();
-		setClientCode(clientCode);
+	public Client(String inputname, String inputsurname, String personalCode,
+			String inputEmail, Address inputaddress) {
+		super(inputname,inputsurname,personalCode);
+		setEmail (inputEmail);
+		setAddress (inputaddress);
+		accounts = new ArrayList<BankAccount>();
+		setClientCode(personalCode);
 	}
 	
 	//STRING TOstring
 	public String toString() {
-		String result = email + " " + address + " " + accounts + " " + clientCode;
+		String result = super.toString() +  
+				" Client Code : " + clientCode +" Email:" + email + " Address: " + address;
 		return result;
 	}
 	

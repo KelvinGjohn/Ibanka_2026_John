@@ -20,7 +20,7 @@ public class Card {
 	public int getCvv() {
 		return cvv;
 	}
-	public boolean getActive() {
+	public boolean isActive() {
 		return active;
 	}
 	public BankAccount getAccount() {
@@ -29,12 +29,22 @@ public class Card {
 	
 	//setters
 	public void setCardNumber(String inputCardNumber) {
-		if(inputCardNumber != null && inputCardNumber.isEmpty()
-				&& inputCardNumber.matches("[0-9]{4}[ ][0-9]{4}[ ][0-9]{4}[ ][0-9]{4}			")) {
-			inputCardNumber = cardNumber;
+		if(inputCardNumber != null 
+				&& inputCardNumber.matches("[0-9]{4}[ ][0-9]{4}[ ][0-9]{4}[ ][0-9]{4}")) {
+			this.cardNumber = inputCardNumber;
 		}
 		else{
-			cardNumber = "1526 1773 1927 1937";
+			throw new IllegalArgumentException("Invalid Card");
+
+		}
+	}
+	
+	public void setExpiryDate(LocalDate inputexpiryDate) {
+		if (inputexpiryDate != null && inputexpiryDate.isAfter(LocalDate.now())) {
+			expireDate = inputexpiryDate;
+		}
+		else {
+			throw new IllegalArgumentException("Card has expired!");
 		}
 	}
 	
@@ -43,10 +53,10 @@ public class Card {
 			cvv = inputCvv;
 		}
 		else {
-			cvv = 179;
+			throw new IllegalArgumentException("Cvv must be 3 digit!");
 		}
 	}
-	public void setgetActive(boolean inputactive) {
+	public void setActive(boolean inputactive) {
 		active = inputactive;	
 	}
 	public void setAccount(BankAccount inputAccount) {
@@ -63,10 +73,11 @@ public class Card {
 		
 	}
 	
-	public Card(String inputCardNumber, LocalDate ExpiryDate, int inputCvv, boolean inputActive, BankAccount inputAccount) {
-		setCardNumber(inputCardNumber);
+	public Card(String CardNumber, LocalDate ExpiryDate, int inputCvv, boolean inputActive, BankAccount inputAccount) {
+		setCardNumber(CardNumber);
+		setExpiryDate(ExpiryDate);
 		setCvv(inputCvv);
-		setgetActive(inputActive);
+		setActive(inputActive);
 		setAccount(inputAccount);	
 	}
 	
@@ -74,7 +85,7 @@ public class Card {
 	
 	public String toString() {
 		String result = cardNumber + " " + expireDate + " " + cvv + " " + active + " " + account;
-		return result;
+		return result; 
 	}
 	 
 
