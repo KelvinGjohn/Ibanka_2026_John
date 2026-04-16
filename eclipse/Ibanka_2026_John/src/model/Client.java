@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Client extends Person {
 	private String email;
 	private Address address;
-	private  ArrayList<BankAccount> accounts;
+	private  ArrayList<BankAccount> accounts = new ArrayList<>();
 	private String clientCode;
 	
 	
@@ -57,11 +57,13 @@ public class Client extends Person {
 				return;
 			}
 		}
+		accounts.add(newAccount);
 	}
 	
 	public void removeBankAccount(BankAccount accountToRemove) {
 		if (accountToRemove == null) 
 			return;
+		accounts.remove(accountToRemove);
 	}
 	// no arg
 	public Client() {

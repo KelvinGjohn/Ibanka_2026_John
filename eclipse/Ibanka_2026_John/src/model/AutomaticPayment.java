@@ -41,7 +41,7 @@ public class AutomaticPayment extends Transaction {
 			nextPaymentDate = inputNextPaymentDate;
 		}
 		else
-		{
+		{ 
 			throw new IllegalArgumentException("NOTE:Next cannot be empty!");
 		}
 		

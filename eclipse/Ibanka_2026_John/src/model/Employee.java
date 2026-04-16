@@ -43,10 +43,14 @@ public class Employee extends Person {
 		setapprovalLimit(inputapprovalLimit);
 	}
 	
-public String toString() {
-	String result = status + "| " + approvalLimit ;
-	return result;
-} 
+//String toString
+	public String toString() {
+	    return "Name: " + getName() +
+	           " Surname: " + getSurname() +
+	           " Code: " + getPersonCode() +
+	           " Status: " + status +
+	           " Limit: " + approvalLimit;
+	}
 		
 	}
 
